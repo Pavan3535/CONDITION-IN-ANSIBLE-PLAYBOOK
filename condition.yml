@@ -1,0 +1,31 @@
+---
+- name: apply condition statment 
+  hosts: localhost
+  tasks: 
+
+    - name: Install package for http
+      yum: 
+        name: httpd 
+        state: latest 
+      when: ansible_distribution == 'CentOS' or ansible_distrinution == 'RedHat'
+
+    - name: Install package apache2 
+      apt:
+        name: apache2 
+        state: latest
+      when: ansible_distribution == 'Ubuntu'
+
+
+    - name: start httpd 
+      service: 
+        name: httpd 
+        state: started 
+        enabled: true 
+      when: ansible_distribution == 'CentOS' or ansible_distrinution == 'RedHat'
+
+    - name: start httpd 
+      service: 
+        name: apache2
+        state: started 
+        enabled: true 
+      when: ansible_distribution == 'Ubuntu'
